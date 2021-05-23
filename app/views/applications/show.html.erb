@@ -1,3 +1,20 @@
+<section id="pet_search">
+<h1>Add a Pet to this Application</h1>
+
+  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+    <%= f.label :search %>
+    <%= f.text_field :search %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+<% if params[:search].present?%>
+  <% @pets.each do |pet| %>
+  <%= button_to 'Adopt this Pet', "/applications/#{@application.id}", method: :get, params: { adopt: pet.id } %>
+  <%= pet.name %>
+  <% end %>
+  <% end %>
+</section>
+
 <section id="application-<%= @application.id %>">
   <h1>Name: <%= @application.name %></h1>
   <h3>Full Address: <%= @application.full_address %></h3>
@@ -8,3 +25,4 @@
     <p><%= link_to "#{pet.name}", "/pets/#{pet.id}", method: :get %></p>
   <% end %>
 </section>
+
