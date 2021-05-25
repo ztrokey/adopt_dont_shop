@@ -24,6 +24,6 @@
 
 <section id="submit">
 
-  <%= render partial: "form", locals: {path: "/applications/#{@application.id}", method: :patch} if @application.status.nil? %>
+  <%= render partial: "form", locals: {path: "/applications/#{@application.id}", method: :patch} if @application.pets.length > 0 unless @application.status != nil %>
 
 </section>

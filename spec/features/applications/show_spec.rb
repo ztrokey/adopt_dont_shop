@@ -135,6 +135,18 @@ RSpec.describe 'Application show page' do
         expect(page).to_not have_content('Search')
       end
     end
+    it 'wont show submit until at least one pet is added' do
+      application = Application.create!(name: 'Chris P. Bacon', street_address: '123 Main Street', city: 'Anytown', state: 'CO', zip_code: 12345)
+      shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+      pet_1 = shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: true)
+      pet_2 = shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
+      pet_3 = shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 3, adoptable: false)
+      pet_4 = shelter_1.pets.create(name: 'Another Pet', breed: 'ragdoll', age: 3, adoptable: false)
+
+      visit "/applications/#{application.id}"
+      save_and_open_page
+      expect(page).to_not have_content('submit')
+    end
   end
 end
 
@@ -142,3 +154,8 @@ end
 # [x] And I see an indicator that the application is "Pending"
 # [x] And I see all the pets that I want to adopt
 # [kind of] And I do not see a section to add more pets to this application
+
+# As a visitor
+# When I visit an application's show page
+# And I have not added any pets to the application
+# [x]Then I do not see a section to submit my application
