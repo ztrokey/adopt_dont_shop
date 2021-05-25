@@ -2,11 +2,10 @@ class ApplicationsController < ApplicationController
   def show
     @application = Application.find(params[:application_id])
     @pets = Pet.all
-    # require 'pry'; binding.pry
     if params[:search].present?
       @pets = Pet.search(params[:search])
     end
-    if params[:adopt]
+    if params[:adopt]#dup pet logic here **could be model method def adopt
       @pet = Pet.find(params[:adopt])
       @application.pets << @pet
     end
@@ -27,13 +26,14 @@ class ApplicationsController < ApplicationController
   end
 
   def update
+    @application = Application.find(params[:application_id])
+    @pets = Pet.all
     application = Application.find(params[:application_id])
-    # require 'pry'; binding.pry
     if application.update(application_params)
       redirect_to "/applications/#{application.id}"
     else
       flash[:alert] = "Error: #{error_message(application.errors)}"
-      # render :update
+      render :show
     end
   end
 
