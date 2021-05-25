@@ -22,3 +22,8 @@
   <% end %>
 </section>
 
+<section id="submit">
+
+  <%= render partial: "form", locals: {path: "/applications/#{@application.id}", method: :patch} %>
+  
+</section>

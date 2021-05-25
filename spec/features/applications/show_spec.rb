@@ -102,10 +102,39 @@ RSpec.describe 'Application show page' do
 
       click_button 'Search'
       click_button 'Adopt this Pet'
-      
+
       within("#application-#{application.id}") do
         expect(page).to have_content(pet_3.name)
       end
     end
+    it 'submits an application' do
+      application = Application.create!(name: 'Chris P. Bacon', street_address: '123 Main Street', city: 'Anytown', state: 'CO', zip_code: 12345)
+      shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+      pet_1 = shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: true)
+      pet_2 = shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
+      pet_3 = shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 3, adoptable: false)
+      pet_4 = shelter_1.pets.create(name: 'Another Pet', breed: 'ragdoll', age: 3, adoptable: false)
+
+      visit "/applications/#{application.id}"
+      fill_in 'Search', with: 'Ann'
+
+      click_button 'Search'
+      click_button 'Adopt this Pet'
+      fill_in 'Description', with: 'I like pets'
+      click_button 'Submit Application'
+
+      within("#submit") do
+        expect(page).to have_button('Submit Application')
+      end
+      within("#application-#{application.id}") do
+        expect(page).to have_content('I like pets')
+        expect(page).to have_content('Pending')
+      end
+    end
   end
 end
+
+# [x] Then I am taken back to the application's show page
+# [] And I see an indicator that the application is "Pending"
+# [] And I see all the pets that I want to adopt
+# [] And I do not see a section to add more pets to this application
