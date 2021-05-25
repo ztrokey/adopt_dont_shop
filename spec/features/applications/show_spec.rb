@@ -121,20 +121,24 @@ RSpec.describe 'Application show page' do
       click_button 'Search'
       click_button 'Adopt this Pet'
       fill_in 'Description', with: 'I like pets'
-      click_button 'Submit Application'
+      click_button 'submit'
 
       within("#submit") do
-        expect(page).to have_button('Submit Application')
+        expect(page).to_not have_button('submit')
       end
       within("#application-#{application.id}") do
         expect(page).to have_content('I like pets')
         expect(page).to have_content('Pending')
+        expect(page).to have_content('Ann')
+      end
+      within("#pet_search") do
+        expect(page).to_not have_content('Search')
       end
     end
   end
 end
 
 # [x] Then I am taken back to the application's show page
-# [] And I see an indicator that the application is "Pending"
-# [] And I see all the pets that I want to adopt
-# [] And I do not see a section to add more pets to this application
+# [x] And I see an indicator that the application is "Pending"
+# [x] And I see all the pets that I want to adopt
+# [kind of] And I do not see a section to add more pets to this application
