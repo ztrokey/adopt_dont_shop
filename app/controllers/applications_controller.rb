@@ -5,7 +5,7 @@ class ApplicationsController < ApplicationController
     if params[:search].present?
       @pets = Pet.search(params[:search])
     end
-    if params[:adopt]
+    if params[:adopt]#dup pet logic here **could be model method def adopt
       @pet = Pet.find(params[:adopt])
       @application.pets << @pet
     end
@@ -25,9 +25,21 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  def update
+    @application = Application.find(params[:application_id])
+    @pets = Pet.all
+    application = Application.find(params[:application_id])
+    if application.update(application_params)
+      redirect_to "/applications/#{application.id}"
+    else
+      flash[:alert] = "Error: #{error_message(application.errors)}"
+      render :show
+    end
+  end
+
   private
 
   def application_params
-    params.permit(:name, :street_address, :city, :state, :zip_code)
+    params.permit(:name, :street_address, :city, :state, :zip_code, :description, :status)
   end
 end

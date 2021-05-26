@@ -1,11 +1,7 @@
 <section id="pet_search">
 <h1>Add a Pet to this Application</h1>
 
-  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-    <%= f.label :search %>
-    <%= f.text_field :search %>
-    <%= f.submit "Search" %>
-  <% end %>
+<%= render partial: "pets/form", locals: {path: "/applications/#{@application.id}", method: :get } if @application.status.nil? %>
 
 <% if params[:search].present?%>
   <% @pets.each do |pet| %>
@@ -26,3 +22,8 @@
   <% end %>
 </section>
 
+<section id="submit">
+
+  <%= render partial: "form", locals: {path: "/applications/#{@application.id}", method: :patch} if @application.pets.length > 0 unless !@application.status.nil? %>
+
+</section>
