@@ -12,8 +12,8 @@ RSpec.describe 'the admin show page' do
     @application_2 = Application.create!(name: 'Phillip DaForm', street_address: '789 21st Ave', city: 'Mytown', state: 'NY', zip_code: 98765, description: 'I like pets the most', status: 'Approved')
 
     @application_1.pets << @pet_1
-    # @application_1.pets << @pet_2
-    # @application_1.pets << @pet_3
+    @application_1.pets << @pet_2
+    @application_1.pets << @pet_3
 
     @application_2.pets << @pet_1
     @application_2.pets << @pet_2
@@ -23,8 +23,8 @@ RSpec.describe 'the admin show page' do
   it 'can approve a pet for an application' do
     visit "/admin/applications/#{@application_1.id}"
 
-    click_button 'Approve'
-
+    within("#pet-#{@pet_1.id}") {click_button 'Approve'}
+    # save_and_open_page
     within("#application-#{@application_1.id}") do
       expect(page).to have_content('Application Status: Approved')
     end
@@ -33,7 +33,7 @@ RSpec.describe 'the admin show page' do
   it 'can reject a pet for an application' do
     visit "/admin/applications/#{@application_1.id}"
 
-    click_button 'Reject'
+    within("#pet-#{@pet_1.id}") {click_button 'Reject'}
 
     within("#application-#{@application_1.id}") do
       expect(page).to have_content('Application Status: Rejected')
