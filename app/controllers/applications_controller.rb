@@ -5,7 +5,7 @@ class ApplicationsController < ApplicationController
     if params[:search].present?
       @pets = Pet.search(params[:search])
     end
-    if params[:adopt]#dup pet logic here **could be model method def adopt
+    if params[:adopt]
       @pet = Pet.find(params[:adopt])
       @application.pets << @pet
     end

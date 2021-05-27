@@ -29,7 +29,7 @@ RSpec.describe 'Application show page' do
 
   describe 'Add a Pet to this Application' do
     it 'has a section to search for pets' do
-      application = Application.create!(name: 'Chris P. Bacon', street_address: '123 Main Street', city: 'Anytown', state: 'CO', zip_code: 12345, description: 'I like pets', status: 'Pending')
+      application = Application.create!(name: 'Chris P. Bacon', street_address: '123 Main Street', city: 'Anytown', state: 'CO', zip_code: 12345)
 
       visit "/applications/#{application.id}"
 
