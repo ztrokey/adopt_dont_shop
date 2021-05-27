@@ -4,6 +4,7 @@ class Shelter < ApplicationRecord
   validates :city, presence: true
 
   has_many :pets, dependent: :destroy
+  has_many :applications, through: :pets
 
   def self.order_by_recently_created
     order(created_at: :desc)
@@ -33,7 +34,10 @@ class Shelter < ApplicationRecord
   end
 
   def self.reverse_alphabetical
-    Shelter.find_by_sql("Select * FROM shelters Order BY name DESC")
-    # require 'pry'; binding.pry
+    find_by_sql("Select * FROM shelters Order BY name DESC")
+  end
+
+  def self.pending_applications
+    joins(:applications).where('applications.status = ?', 'Pending').distinct
   end
 end

@@ -6,3 +6,12 @@
     <%= link_to "Delete #{shelter.name}", "/shelters/#{shelter.id}", method: :delete %>
   </div>
 <% end %>
+
+<section id="pending_applications">
+  <div>
+    <h2>Shelter's with Pending Applications</h2>
+      <% Shelter.pending_applications.each do |shelter| %>
+        <p><%= shelter.name %></p>
+      <% end %>
+  </div>
+</section>
