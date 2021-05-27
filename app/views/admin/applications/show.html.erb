@@ -9,12 +9,17 @@
   <% @application.pets.each do |pet| %>
   <div id="pet-<%= pet.id %>">
     <p><%= link_to "#{pet.name}", "/pets/#{pet.id}", method: :get %></p>
-      <% if @application.status == 'Pending'%>
-    <p><%= button_to 'Approve', "/admin/applications/#{@application.id}", method: :patch, params: { status: "Approved" } %></p>
-      <% end %>
-      <% if @application.status != 'Rejected'%>
-    <p><%= button_to 'Reject', "/admin/applications/#{@application.id}", method: :patch, params: { status: "Rejected" }  %></p>
-      <% end %>
+    <% if @application.status == 'Pending'%>
+    <p>
+      <%= button_to 'Approve', "/admin/applications/#{@application.id}", method:
+      :patch, params: { status: "Approved" } %>
+    </p>
+    <% end %> <% if @application.status != 'Rejected'%>
+    <p>
+      <%= button_to 'Reject', "/admin/applications/#{@application.id}", method:
+      :patch, params: { status: "Rejected" } %>
+    </p>
+    <% end %>
   </div>
   <% end %>
 </section>
