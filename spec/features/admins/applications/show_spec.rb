@@ -24,7 +24,7 @@ RSpec.describe 'the admin show page' do
     visit "/admin/applications/#{@application_1.id}"
 
     within("#pet-#{@pet_1.id}") {click_button 'Approve'}
-    # save_and_open_page
+
     within("#application-#{@application_1.id}") do
       expect(page).to have_content('Application Status: Approved')
     end
