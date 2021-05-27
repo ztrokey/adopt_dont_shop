@@ -23,7 +23,7 @@
 </section>
 
 <section id="submit">
-
+  <%#if logic here %>
   <%= render partial: "form", locals: {path: "/applications/#{@application.id}", method: :patch} if @application.pets.length > 0 unless !@application.status.nil? %>
-
+  <%# end %>
 </section>
